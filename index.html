@@ -8,35 +8,42 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "Poppins", sans-serif;
+            font-family: cursive;
             cursor: none;
         }
 
         body {
             background-image: url("assets/images/background.png");
-            background-repeat: no-repeat;
             background-size: cover;
             height: 100vh;
             text-align: center;
         }
+
         .container {
             position: relative;
             height: 100%;
             overflow: hidden;
         }
+
         button {
             color: #fff;
             border: 2px solid #fff;
             background: transparent;
-            padding: 15px 45px;
-            font-size: 1.1rem;
-            margin-top: 3em;
-            outline: none;
-            cursor: none;
+            border-radius: 30%;
+            padding: 20px 26px;
+            font-size: 30px;
+        }
+        button:hover{
+            border: 5px solid #ffffff;
+            color: #ffffff;
+            cursor: pointer;
+            background: black;
         }
 
         .blood {
             position: absolute;
+            height: 50px;
+            transform: translate(-50%, -50%);
             z-index: 2;
         }
 
@@ -50,17 +57,85 @@
 
         .cursor {
             position: absolute;
+            height: 70px;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
             z-index: 2;
-
+            transition: 0.3s transform ease;
+            transform-origin: 100% 100%;
         }
+
     </style>
 </head>
 <body>
 <div class="container">
-  <button type="button" class="startBtn">START GAME</button>
+  <button type="button" class="btnStart">START GAME</button>
     <img src="assets/images/cursor.png" alt="Crosshair" class="cursor" />
     <img src="assets/images/bloodspot.png" alt="Blood" class="blood" />
     <img src="assets/images/enemy.png" alt="Enemy" class="enemy" />
+    <audio id="fire" src="assets/sounds/firesound.mp3" autoplay="false" ></audio>
+    <audio id="death" src="assets/sounds/deathSound.mp3" autoplay="false" ></audio>
 </div>
+
+<script>
+    var container = document.querySelector(".container");
+    var bloodSpot = document.querySelector(".blood");
+    var startBtn = document.querySelector(".btnStart");
+
+    var enemy = document.querySelector(".enemy");
+
+
+    var contHeight = container.offsetHeight;
+    var contWidth = container.offsetWidth;
+
+    function playSound() {
+        var sound = document.getElementById("fire");
+        sound.play();
+    }
+    function playSound2() {
+        var sound = document.getElementById("death");
+        sound.play();
+    }
+
+    setInterval(() => {
+        var randTop = Math.random() * (contHeight - 50);
+        var randLeft = Math.random() * (contWidth - 50);
+        enemy.style.position = "absolute";
+        enemy.style.top = randTop + "px";
+        enemy.style.left = randLeft + "px";
+    }, 1000);
+
+    var score = 0;
+
+    startBtn.addEventListener("click", () => {
+        container.appendChild(enemy);
+
+        startBtn.innerText = "SCORE: " + score;
+    });
+
+    window.addEventListener("click", (e) => {
+        bloodSpot.style.opacity="0";
+        playSound();
+
+        if (e.target === enemy){
+            bloodSpot.style.top = e.pageY + "px";
+            bloodSpot.style.left = e.pageX + "px";
+            bloodSpot.style.opacity="100";
+            playSound2();
+            score++;
+        }else{
+            bloodSpot.style.opacity="0";
+        }
+
+        startBtn.innerText = "SCORE: " + score;
+    });
+
+    var cursor = document.querySelector(".cursor");
+    window.addEventListener("mousemove", (e) => {
+        cursor.style.top = e.pageY + "px";
+        cursor.style.left = e.pageX + "px";
+    });
+</script>
 </body>
+
 </html>
