@@ -19,12 +19,48 @@
             height: 100vh;
             text-align: center;
         }
+        .container {
+            position: relative;
+            height: 100%;
+            overflow: hidden;
+        }
+        button {
+            color: #fff;
+            border: 2px solid #fff;
+            background: transparent;
+            padding: 15px 45px;
+            font-size: 1.1rem;
+            margin-top: 3em;
+            outline: none;
+            cursor: none;
+        }
+
+        .blood {
+            position: absolute;
+            z-index: 2;
+        }
+
+        .enemy {
+            height: 100px;
+        }
+
+        img::selection {
+            background: transparent;
+        }
+
+        .cursor {
+            position: absolute;
+            z-index: 2;
+
+        }
     </style>
 </head>
 <body>
 <div class="container">
   <button type="button" class="startBtn">START GAME</button>
-
+    <img src="assets/images/cursor.png" alt="Crosshair" class="cursor" />
+    <img src="assets/images/bloodspot.png" alt="Blood" class="blood" />
+    <img src="assets/images/enemy.png" alt="Enemy" class="enemy" />
 </div>
 </body>
 </html>
